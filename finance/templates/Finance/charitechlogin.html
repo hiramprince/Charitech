@@ -25,7 +25,7 @@
                     <li><a href="{% url 'contact' %}">CONTACT</a></li>
                     <li><a href='{% url "logout" %}'>LOGOUT</a></li>
                 </ul>
-            </div>a
+            </div>
             <i class="fa fa-bars" onclick = "showMenu()"></i>
         </nav>
         <div class="text-box">
@@ -152,7 +152,7 @@
                 <option value ="org4">Charity</option>
             </select>
 
-            <buttonid="submitBank">Submit</button>
+            <button id="submitBank">Submit</button>
         </div>
 
         {% comment %} Stage2: Phone form(initially hidden) {% endcomment %}
@@ -217,6 +217,7 @@
     <!-- JavaScript for toggling Menu  -->
     <script>
         var navLinks = document.getElementById("navLinks");
+        
         function showMenu(){
             navLinks.style.right = "0";
         }
@@ -225,11 +226,9 @@
             navLinks.style.right = "-200px";
         }
 
-       updateArrows();
-
        var modal= document.getElementById("donateModal");
        var openModalBtn = document.getElementById("openDonateModal");
-       var closeBtn = document.getElementByClassName("close")[0];
+       var closeBtn = document.getElementsByClassName("close")[0];
 
        openModalBtn.onclick = function(event){
         event.preventDefault();
@@ -240,11 +239,32 @@
         modal.style.display ="none";
        }
 
-       window.onclick = funtion(event){
+       window.onclick = function(event){
         if(event.target == modal){
            modal.style.display ="none";
         }
        }
+
+       var continueButton = document.getElementById ("continueButton");
+       var paymentType = document.getElementById("paymentType");
+       var stage1 = document.getElementById("stage1");
+       var bankForm = document.getElementById("bankForm");
+       var phoneForm = document.getElementById("phoneForm");
+
+       continueButton.onclick = function (){
+        var selectedPaymentType = paymentType.value;
+
+        if (selectedPaymentType === "bank"){
+            stage1.classList.add("hidden");
+            bankForm.classList.remove("hidden");
+        }else if (selectedPaymentType === "phone"){
+            stage1.classList.add("hidden");
+            phoneForm.classList.remove("hidden");
+        }else{
+            alert("Please select a payment type");
+        }
+       }
+
     </script>
 </body>
 </html>

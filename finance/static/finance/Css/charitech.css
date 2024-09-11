@@ -228,6 +228,65 @@ h3{
     }
 }
 
+.modal{
+    display:none;
+    position:fixed;
+    z-index:1000;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    overflow:auto;
+    background-color:rgba(0, 0, 0,0.4);
+}
+
+.modal-content{
+    background-color:#fff;
+    margin:15% auto;
+    padding:20px;
+    border: 1px solid #888;
+    width:80%;
+    max-width:400px;
+    text-align:center;
+    border-radius:10px;
+}
+
+.close{
+    position:absolute;
+    top:10px;
+    right:20px;
+    font-size:24px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.hidden{
+    display:none;
+}
+
+.modal buttton{
+    background-color:white;
+    color:white;
+    border:none;
+    padding:10px;
+    cursor:pointer;
+    margin-top:10px;
+} 
+
+.modal button:hover{
+    background-color: #7FFF00;
+}
+
+.modal input, select{
+    width:100%;
+    padding:8px;
+    margin:5px 0;
+    box-sizing:border-box;
+}
+
+.modal h2{
+    margin-bottom:20px;
+}
 /* Campus */
 
 .campus{
@@ -631,7 +690,7 @@ hr{
 .form-box h1{
     font-size:30px;
     margin-bottom:60px;
-    color:#6b8e23  ;
+    color:#75c611  ;
     position:relative;
 }
 
@@ -640,7 +699,7 @@ hr{
     width:30px;
     height:4px;
     border-radius:3px;
-    background:#6b8e23 ;
+    background:#75c611 ;
     position:absolute;
     bottom: -12px;
     left:50%;
@@ -677,7 +736,7 @@ form p{
 
 form p a{
     text-decoration:none;
-    color:#6b8e23;
+    color:#75c611;
 }
 
 .btn-field{
@@ -688,7 +747,7 @@ form p a{
 
 .btn-field button{
     flex-basis:48%;
-    background-color:#6b8e23;
+    background-color:#75c611;
     color:#fff;
     height:40px;
     border-radius:20px;
