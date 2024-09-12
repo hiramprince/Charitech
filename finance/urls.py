@@ -1,17 +1,16 @@
-from django.urls import path,include
-from . import views
+from django.urls import path
+from .views import home, about, contact, blog, course, donor, volunteer, dashboard, login_signup_view, logout_view,signup_view
 
 urlpatterns = [
-    path('',views.login_signup_view, name ='login_signup'),
-    path("accounts/",include("django.contrib.auth.urls")),
-    # path('',views.login, name ='login'),
-    path('home/',views.home, name ='home'),
-    path('about/', views.about, name ='about'),
-    path('contact/',views.contact, name ='contact'),
-    path('blog/',views.blog,name ='blog'),
-    path('course/',views.course, name ='course'),
-    path('logout/',views.logout_view, name ='logout'),
+    path('', home, name='home'),
+    path('about/', about, name='about'),
+    path('contact/', contact, name='contact'),
+    path('blog/', blog, name='blog'),
+    path('course/', course, name='course'),
+    path('donor/', donor, name='donor'),
+    path('volunteer/', volunteer, name='volunteer'),
+    path('dashboard/', dashboard, name='dashboard'),
+    path('login/', login_signup_view, name='login_signup'),
+    path('signup/', signup_view, name='signup'),
+    path('logout/', logout_view, name='logout'),
 ]
-
-
-# login-signup/

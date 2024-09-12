@@ -7,7 +7,7 @@ class UserType(models.Model):
     UserTypeDescription = models.TextField()
 
     def __str__(self):
-        return self.UserTypename     
+        return self.UserTypeName     
 
 class PaymentPlatform(models.Model):
     PaymentPlatformId = models.AutoField(primary_key=True)
@@ -39,10 +39,10 @@ class Organization(models.Model):
 class User(AbstractUser):
     USERID = models.AutoField(primary_key=True)
     UserContact = models.CharField(max_length=100)
-    UserLocation = models.CharField(max_length =100)
-    UserDepartment = models.CharField(max_length=100)
+    UserLocation = models.CharField(max_length =100,null =True, blank = True)
+    UserDepartment = models.CharField(max_length=100,null=True, blank = True)
     UserType = models.ForeignKey(UserType, on_delete=models.CASCADE)
-    Banks = models.ManyToManyField(Bank)
+    UserBank = models.ManyToManyField(Bank)
     Organizations = models.ManyToManyField(Organization)
 
     groups = models.ManyToManyField(
@@ -59,6 +59,16 @@ class User(AbstractUser):
         verbose_name='user permission',
     )
 
+    def save(self, *args, **kwargs):
+        if not self.UserDepartment and not self.UserLocation:
+            donor_type, created = UserType.objects.get_or_create(UserTypeName ='Donor')
+            self.UserType =donor_type
+
+        else: 
+            volunteer_type, created = UserType.objects.get_or_create(UserTypeName= 'Volunteer')
+            self.UserType = volunteer_type
+
+        super(User, self).save(*args, **kwargs)
     def __str__(self):
         return self.username  
 

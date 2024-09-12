@@ -22,40 +22,9 @@
                <h1 id="title">Sign Up</h1>
                <form id="authForm" method="POST" action="{% url 'login_signup' %}">
                 {% csrf_token %}
-                 <div class="input-group">
-                    <div class="input-field" id="nameField">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" placeholder="FirstName" name="first_name" id="usernameField">
-                    </div>
-
-                    <div class="input-field">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" placeholder="LastName" name="last_name" id="usernameField">
-                    </div>
-
-                    <div class="input-field">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" placeholder="UserNAme" name="user_name" id="usernameField">
-                    </div>
-
-                    <div class="input-field">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" placeholder="LastName" name="email" id="emailField">
-                    </div>
-                   
-                    <div class="input-field">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Enter your password" name="password1" id="passwordField">
-                    </div>
-
-                    <div class="input-field">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Confirm your password" name="password2" id="passwordField">
-                    </div>
-
-                    <input type="hidden" name="action" id="action" value="signup">
-                    <p>Lost password <a href="#">Click Here!</a></p>
-                 </div>
+                
+                {{ form.as_p }}
+                 
                  <div class="btn-field">
                     <button type="button" id="signupBtn">Sign up</button>
                     <button type="button" class="disable" id="signinBtn">Log in</button>

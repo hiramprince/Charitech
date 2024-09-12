@@ -23,7 +23,9 @@
                     <li><a href="{% url 'course' %}">DONATE</a></li>
                     <li><a href="{% url 'blog' %}">BLOG</a></li>
                     <li><a href="{% url 'contact' %}">CONTACT</a></li>
-                    <li><a href='{% url "logout" %}'>LOGOUT</a></li>
+                    <li><a href="{% url 'login_signup' %}?action=signup">SIGNUP</a></li>
+                    <li><a href="{% url 'login_signup' %}?action=login">LOGIN</a></li>
+                     <li><a href='{% url "logout" %}'>LOGOUT</a></li>
                 </ul>
             </div>
             <i class="fa fa-bars" onclick = "showMenu()"></i>
@@ -40,32 +42,13 @@
   
         <!-- Campus -->
 
-    <section class = "campus">
-        <h1>Multitudes have been given a smile</h1>
-        
-        <div class="row">
-        <div class="campus-col">
-            <img src="{% static 'finance/Images/london.png' %}" >
-                    <div class="layer">
-                        <h3>Kilimanjaro</h3>
-                    </div>
-         </div>
-    
-          <div class="campus-col">
-            <img src="{% static 'finance/Images/newyork.png' %}" >
-                    <div class="layer">
-                        <h3>Mbeya</h3>
-                    </div>
-         </div>
-
-         <div class="campus-col">
-            <img src="{% static 'finance/Images/newyork.png' %}" >
-                    <div class="layer">
-                        <h3>Dar es Salaam</h3>
-                    </div>
-         </div>
-
-
+    <section class = "containers">
+        <div class ="map-section">
+            <img src="{% static 'finance/Images/Tanzania.png' %}" >
+        </div>
+        <div class ="info-section">
+            <h1>Together, Charitech's family aims at delivering joy in Tanzania</h1>
+            <p>With everyone's contribution, Charitech aims to make sure that the majority of unfortunate Tanzanians are able to meet their basic needs.</p>
         </div>
     </section>
  
@@ -130,6 +113,7 @@
 
         {% comment %} Stage2: Bank form(initially hidden) {% endcomment %}
         <div id="bankForm" class="form-stage hidden">
+            <button class ="backButton">&larr; Back</button>
             <h2>Bank Payment</h2>
             <label for ="bank">Bank:</label>
             <select id="bank">
@@ -157,6 +141,7 @@
 
         {% comment %} Stage2: Phone form(initially hidden) {% endcomment %}
         <div id="phoneForm" class="form-stage hidden">
+            <button class ="backButton">&larr; Back</button>
             <h2>Phone Payment</h2>
             <label for="network">Network:</label>
             <select id="network">
@@ -191,11 +176,19 @@
        
         <div class="contact-col">
             <form action="">
+                <h1>volunteer</h1>
                 <input type="text" placeholder="Enter your name" required>
+                <input type="text" placeholder="Enter your address" required>
+                <select>
+                    <option>department A</option>
+                    <option>department A</option>
+                    <option>department A</option>
+                </select>
                 <input type="email" placeholder="Enter your email" required>
-                <input type="text" placeholder="Enter your subject" required>
-                <textarea rows="8" placeholder="message" required></textarea>
-                <button type="submit" class="hero-btn">Send Message</button>
+                <input type="password" placeholder="Enter your password" required>
+                <input type="password" placeholder="confirm password" required>
+
+                <button type="submit" class="hero-btn green-btn">Sign up</button>
             </form>
         </div>
     </div>
@@ -263,6 +256,18 @@
         }else{
             alert("Please select a payment type");
         }
+       }
+
+       var backButtons = document.getElementsByClassName("backButton");
+
+       for (var i=0; i<backButtons.length; i++){
+        backbuttons[i].addEventListener("click",function(){
+
+            bankForm.classList.add("hidden");
+            phoneForm.classList.add("hidden");
+
+            stage1.classList.remove("hidden");
+        })
        }
 
     </script>

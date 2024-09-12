@@ -192,9 +192,6 @@ p{
     border-radius: 10px;
     }
 
-#course1-col{
-    /* cursor:pointer; */
-}
 h3{
     text-align: center;
     font-weight:600;
@@ -221,6 +218,19 @@ h3{
     font-size:24px;
     color:white;
     cursor:pointer;
+}
+
+.backButton{
+    background-color: transparent;
+    border:none;
+    color:#333;
+    font-size:1rem;
+    cursor:pointer;
+    margin-bottom:10px;
+}
+
+.backbutton:hover{
+    text-decoration:underline;
 }
 @media(max-width: 700px){
     .row{
@@ -290,8 +300,8 @@ h3{
 /* Campus */
 
 .campus{
-    width:80%;
-    margin:20px auto;
+    width:90%;
+    margin:40px auto;
     position:relative;
     text-align:center;
     padding-top: 50px;
@@ -304,7 +314,48 @@ h3{
     position: relative;
     overflow:hidden;
    }
+ .containers{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    width:90%;
+    padding:50px 20px;
+}
 
+.map-section img{
+    width:70%;
+    height:auto;
+}
+.info-section h1{
+    color: #CC0000;
+    font-size: 36px;
+    margin-bottom:20px;
+}
+
+.info-section p{
+    font-size:22px;
+    margin-bottom:20px;
+}
+
+.info-section button{
+    background-color:#CC0000;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    cursor:pointer;
+    font-size:18px;
+    border-radius:5px;
+}
+
+@media(max-width: 800px){
+     .containers{
+        flex-direction:column;
+    }
+
+    .map-section img, .info-section{
+        width:100%;
+    }
+}
 .campus-col img{
     width: 100%;
     display:block;
@@ -569,6 +620,15 @@ color:white;
     font-weight: 400;
 }
 
+.contact-col h2{
+    font-size:20px;
+    margin-bottom: 5px;
+    color:#555;
+    font-weight: 400;
+}
+.location{
+    text-align: center;
+}
 .contact-col form{
     display:flex;
     flex-direction: column;
@@ -666,6 +726,7 @@ hr{
     opacity: 0.1;
 }
 
+  /* Login */
 .container{
     width:100%;
     height:100vh;
