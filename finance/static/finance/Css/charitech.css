@@ -726,103 +726,132 @@ hr{
     opacity: 0.1;
 }
 
-  /* Login */
-.container{
-    width:100%;
-    height:100vh;
-    background-image:linear-gradient(rgba(189, 252, 201, 0.4)   ,rgba(189, 252, 201, 0.4)),url('/static/finance/Images/volunteer.jpg');
-    background-position:center;
-    background-size:cover;
-    position:relative;
+  /* login and signup */
+  .container {
+    width: 100%;
+    min-height: 100vh;
+    background-image: linear-gradient(rgba(189, 252, 201, 0.4), rgba(189, 252, 201, 0.4)), url('/static/finance/Images/volunteer.jpg');
+    background-position: center;
+    background-size: cover;
 }
 
-.form-box{
-    width:90%;
-    max-width:450px;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    background:white;
-    padding:50px 60px 70px;
-    text-align:center;
+.form-box {
+    width: 90%;
+    max-width: 450px;
+    position: absolute;
+    top: 52%; /* Adjusted from 50% to 52% to avoid cropping */
+    left: 50%;
+    transform: translate(-50%, -52%); /* Adjusted to ensure proper centering */
+    background: white;
+    padding: 30px 40px 50px; /* Reduced top padding to make more space */
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.form-box h1{
-    font-size:30px;
-    margin-bottom:60px;
-    color:#75c611  ;
-    position:relative;
+.form-box {
+    width: 90%;
+    max-width: 450px;
+    position: absolute;
+    top: 15%; /* Increased from 52% to 15% for more space from the top */
+    left: 50%;
+    transform: translate(-50%, 0); /* Adjusted the translate property to ensure proper centering */
+    background: white;
+    padding: 30px 40px 50px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    .form-box h1{
+        color:#80B71A;
+    }
 }
-
-.form-box h1::after{
+.form-box h1::after {
     content: '';
-    width:30px;
-    height:4px;
-    border-radius:3px;
-    background:#75c611 ;
-    position:absolute;
-    bottom: -12px;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-.input-field{
-    background: #eaeaea;
-    margin:15px 0;
+    width: 30px;
+    height: 4px;
+    color:#80B71A;
     border-radius: 3px;
-    display:flex;
-    align-items:center;
-    max-height:65px;
-    transition: max-height 0.5s;
-    overflow: hidden;
-}
-input{
-    width:100%;
-    background:transparent;
-    border:0;
-    outline:0;
-    padding:18px 15px;
+    background: #80B71A;
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
-.input-field i{
-    margin-left:15px;
-    color:#999;
+.input-field {
+    background: #eaeaea;
+    margin: 10px 0; /* Reduced margin to make fields closer together */
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    transition: all 0.3s ease;
 }
 
-form p{
-    text-align:left;
-    font-size:13px;
+input, select {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    padding: 15px;
+    font-size: 16px;
 }
 
-form p a{
-    text-decoration:none;
-    color:#75c611;
+.input-field i {
+    margin-left: 10px;
+    color: #999;
+    font-size: 18px;
 }
 
-.btn-field{
-    width:100%;
-    display:flex;
-    justify-content:space-between;
+form p {
+    text-align: left;
+    font-size: 14px;
+    margin-top: 10px;
 }
 
-.btn-field button{
-    flex-basis:48%;
-    background-color:#75c611;
-    color:#fff;
-    height:40px;
-    border-radius:20px;
-    border:0;
-    outline:0;
-    cursor:pointer;
-    transition: background-color 1s;
+form p a {
+    text-decoration: none;
+    color: #80B71A;
 }
 
-.input-group{
-    height:280px;
+.btn-field {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px; /* Reduced space above the button */
 }
 
-.btn-field button.disable{
-    background:#eaeaea;
-    color:#555;
+.btn-field button {
+    width: 100%;
+    background-color: #80B71A;
+    color: #fff;
+    height: 45px;
+    border-radius: 25px;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
+
+.btn-field button:hover {
+    background-color: #68A11A;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Reduced gap between input fields for a more compact look */
+}
+
+#addressField {
+    display: none; /* Default hidden */
+}
+
+.hidden {
+    display: none !important; /* Ensure it's hidden */
+    visibility: hidden;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+

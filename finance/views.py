@@ -1,41 +1,18 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as django_logout
-# from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django import forms
-from finance.forms import UserRegistrationForm
-from django.template.loader import get_template
-from django.core.mail import EmailMultiAlternatives, send_mail
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from .models import User, UserType
+from django.contrib.auth import authenticate, login as django_login
+from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
+from django.contrib.auth import login as django_login
+from django.contrib.auth import get_user_model, login as django_login
+from django.shortcuts import render, redirect
+
+
 # Ensure custom fields are handled through a separate model or UserProfile
-
-# A form for custom user creation including extra fields
-class CustomUserCreationForm(forms.ModelForm):
-    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'password')
-        widgets = {
-            'password': forms.PasswordInput,
-        }
-
-    def clean_password2(self):
-        password1 = self.cleaned_data.get("password")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
-        return password2
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])
-        if commit:
-            user.save()
-        return user
-
 def home(request):
     return render(request, 'finance/charitechlogin.html')
 
@@ -54,73 +31,85 @@ def course(request):
 def donor(request):
     return render(request, 'finance/donor.html')
 
+
 def volunteer(request):
     return render(request, 'finance/volunteer.html')
 
+
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    return render(request, 'finance/dashboard.html')
 
-def login_signup_view(request):
-    if request.method == 'POST':
-        action = request.POST.get('action')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
 
-        if action == 'signup':
-            username = request.POST.get('username')
-            user_department = request.POST.get('department', None)
-            user_location = request.POST.get('location', None)
-
-            if not User.objects.filter(username=username).exists():
-                user = User.objects.create_user(username=username, email=email, password=password)
-                # Save custom fields in a separate model or extend User
-                # user.profile.department = user_department
-                # user.profile.location = user_location
-                user.save()
-                login(request, user)
-                messages.success(request, 'Account created successfully! Welcome')
-                return redirect('donor')
-            else:
-                messages.error(request, 'Username already exists.')
-
-        elif action == 'login':
-            user = authenticate(request, username=email, password=password)
-            if user is not None:
-                login(request, user)
-                # Assuming UserType is a custom field or related model
-                # Redirect based on UserType
-                if user.profile.user_type == 'Donor':
-                    return redirect('donor')
-                elif user.profile.user_type == 'Volunteer':
-                    return redirect('volunteer')
-                elif user.profile.user_type == 'Manager':
-                    return redirect('dashboard')
-            else:
-                messages.error(request, 'Invalid credentials')
-
-    return render(request, 'registration/login.html')
 
 
 def signup_view(request):
     if request.method == 'POST':
-        
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            user_name = form.cleaned_data.get('username')
-            email = form.cleaned_data.get('email')
-            email_html = get_template('Email/VerificationEmail.html')
-            data = {'username':user_name}
-            subject = 'Account verification'
-            fromEmail = "hjatuhirwe@gmail.com"
-            To = [email]
-            content = email_html.render(data)
-            message = EmailMultiAlternatives(subject,content,fromEmail,To)
-            message.attach_alternative(content,'text/html')
-            message.send()
-        #     else:
-        # form = UserRegistrationForm()
-        return render(request, 'registration/signup.html',{'form':form})
+        username = request.POST['username']
+        email = request.POST['email']  # Email can still be collected but won't be used for authentication
+        password = request.POST['password']
+        password2 = request.POST['password2']
+        account_type = request.POST['account_type']
+        department = request.POST.get('department', '')
+        location = request.POST.get('location', '')
+
+        if password != password2:
+            return render(request, 'registration/signup.html', {'error': 'Passwords do not match'})
+
+        User = get_user_model()
+        user = User.objects.create_user(username=username, email=email, password=password)
+
+        # Assign user type and additional fields
+        user.UserType, _ = UserType.objects.get_or_create(UserTypeName=account_type)
+        if account_type == 'Volunteer':
+            user.UserDepartment = department
+            user.UserLocation = location
+        user.save()
+
+        django_login(request, user)
+        if account_type == 'Donor':
+            return redirect('donor')
+        elif account_type == 'Volunteer':
+            return redirect('volunteer')
+        else:
+            return redirect('dashboard')
+
+    return render(request, 'registration/signup.html')
+
+
+
+
+
+import logging
+logger = logging.getLogger(__name__)
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            django_login(request, user)
+            user_type_name = getattr(user.UserType, 'UserTypeName', 'Unknown')
+            logger.debug(f'Authenticated user {username} with UserTypeName: {user_type_name}')
+
+            if user_type_name == 'Donor':
+                return redirect('donor')
+            elif user_type_name == 'Volunteer':
+                return redirect('volunteer')
+            elif user_type_name == 'Manager':
+                return redirect('dashboard')
+            else:
+                logger.debug('UserTypeName does not match any known types')
+                return redirect('home')
+        else:
+            logger.debug('Authentication failed')
+            return render(request, 'registration/login.html', {'error': 'Invalid login credentials'})
+
+    return render(request, 'registration/login.html')
+
+
 
 def logout_view(request):
     django_logout(request)

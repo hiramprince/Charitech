@@ -1,13 +1,10 @@
 from django.contrib import admin
-from . models import UserType, PaymentPlatform, Bank, Organization,User, Payment
-# class UserAdmin(admin.ModelAdmin):
-    # list_display = ('username', 'email',)
+from .models import UserType, User
 
-admin.site.register(UserType)
-admin.site.register(PaymentPlatform)
-admin.site.register(Bank)
-admin.site.register(Organization)
-admin.site.register(User)
-admin.site.register(Payment)
+@admin.register(UserType)
+class UserTypeAdmin(admin.ModelAdmin):
+    list_display = ('UserTypeName', 'UserTypeDescription')
 
-# Register your models here.
+@admin.register(User)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'UserType', 'UserContact', 'UserLocation', 'UserDepartment')

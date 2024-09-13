@@ -19,129 +19,27 @@
             </ul>
             {% endif %}
             <div class="form-box">
-               <h1 id="title">Sign Up</h1>
-               <form id="authForm" method="POST" action="{% url 'login_signup' %}">
-                {% csrf_token %}
-                 <div class="input-group">
-                    <div class="input-field" id="nameField">
-                        <i class="fa-solid fa-user"></i>
-                        <input type="text" placeholder="FirstName" name="first_name" id="usernameField">
+               <h1 id="title">Sign In</h1>
+                <form id="authForm" method="POST">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <div class="input-field">
+                            <i class="fa-solid fa-user"></i>
+                            <input type="text" placeholder="Username" name="username" id="usernameField" required>
+                        </div>
+                
+                        <div class="input-field">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" placeholder="Password" name="password" id="passwordField" required>
+                        </div>
+                
+                        <div class="btn-field">
+                            <button type="submit" id="signinBtn">Log in</button>
+                        </div>
                     </div>
-
-                    <div class="input-field">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" placeholder="LastName" name="last_name" id="usernameField">
-                    </div>
-
-                    <div class="input-field">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" placeholder="UserNAme" name="user_name" id="usernameField">
-                    </div>
-
-                    <div class="input-field">
-                        <i class="fa-solid fa-envelope"></i>
-                        <input type="email" placeholder="LastName" name="email" id="emailField">
-                    </div>
-                   
-                    <div class="input-field">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Enter your password" name="password1" id="passwordField">
-                    </div>
-
-                    <div class="input-field">
-                        <i class="fa-solid fa-lock"></i>
-                        <input type="password" placeholder="Confirm your password" name="password2" id="passwordField">
-                    </div>
-
-                    <input type="hidden" name="action" id="action" value="signup">
-                    <p>Lost password <a href="#">Click Here!</a></p>
-                 </div>
-                 <div class="btn-field">
-                    <button type="button" id="signupBtn">Sign up</button>
-                    <button type="button" class="disable" id="signinBtn">Log in</button>
-                 </div>
-               </form> 
+                </form>
+                
             </div>
         </div>
-        <script>
-            let signupBtn = document.getElementById("signupBtn");
-            let signinBtn = document.getElementById("signinBtn");
-            let title = document.getElementById("title");
-            let nameField = document.getElementById("nameField");
-            let usernameField = document.getElementById("usernameField");
-            let emailField = document.getElementById("emailField");
-            let passwordField = document.getElementById("passwordField");
-            let actionField = document.getElementById("action");
-            let authForm = document.getElementById("authForm");
-        
-            // Ensure the form shows the correct state on page load
-            document.addEventListener('DOMContentLoaded', function() {
-                // Get query params from the URL
-                function getQueryParam(param) {
-                    let urlParams = new URLSearchParams(window.location.search);
-                    return urlParams.get(param);
-                }
-        
-                // Set form action based on query parameter
-                let actionParam = getQueryParam('action');
-                actionField.value = actionParam === 'signup' ? 'signup' : 'login';
-                
-                // Toggle between signup/login form views
-                toggleForm();
-            });
-        
-            // Function to toggle between Signup and Login forms
-            function toggleForm() {
-                let action = actionField.value;
-                if (action === 'signup') {
-                    nameField.style.maxHeight = "60px";  // Show the name field for signup
-                    title.innerHTML = "Sign Up";
-                    signupBtn.classList.remove("disable");
-                    signinBtn.classList.add("disable");
-                } else if (action === 'login') {
-                    nameField.style.maxHeight = "0";  // Hide the name field for login
-                    title.innerHTML = "Sign In";
-                    signupBtn.classList.add("disable");
-                    signinBtn.classList.remove("disable");
-                }
-            }
-        
-            // Function to validate the form fields
-            function validateFields() {
-                let action = actionField.value;
-                if (action === 'signup') {
-                    return usernameField.value.trim() !== '' &&
-                           emailField.value.trim() !== '' &&
-                           passwordField.value.trim() !== '';
-                } else if (action === 'login') {
-                    return emailField.value.trim() !== '' &&
-                           passwordField.value.trim() !== '';
-                }
-                return false;
-            }
-        
-            // Event handler for Signin button
-            signinBtn.onclick = function() {
-                actionField.value = "login";  // Set action to login
-                if (validateFields()) {
-                    authForm.submit();  // Submit the form if fields are filled
-                } else {
-                    toggleForm();  // Toggle if fields are not filled
-                }
-            }
-        
-            // Event handler for Signup button
-            signupBtn.onclick = function() {
-                actionField.value = "signup";  // Set action to signup
-                if (validateFields()) {
-                    authForm.submit();  // Submit the form if fields are filled
-                } else {
-                    toggleForm();  // Toggle if fields are not filled
-                }
-            }
-        </script>
-        
-        
-        
     </body>
 </html>

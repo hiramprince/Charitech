@@ -20,97 +20,94 @@
             {% endif %}
             <div class="form-box">
                <h1 id="title">Sign Up</h1>
-               <form id="authForm" method="POST" action="{% url 'login_signup' %}">
+               <form id="authForm" method="POST">
                 {% csrf_token %}
-                
-                {{ form.as_p }}
-                 
-                 <div class="btn-field">
-                    <button type="button" id="signupBtn">Sign up</button>
-                    <button type="button" class="disable" id="signinBtn">Log in</button>
-                 </div>
-               </form> 
-            </div>
-        </div>
-        <script>
-            let signupBtn = document.getElementById("signupBtn");
-            let signinBtn = document.getElementById("signinBtn");
-            let title = document.getElementById("title");
-            let nameField = document.getElementById("nameField");
-            let usernameField = document.getElementById("usernameField");
-            let emailField = document.getElementById("emailField");
-            let passwordField = document.getElementById("passwordField");
-            let actionField = document.getElementById("action");
-            let authForm = document.getElementById("authForm");
-        
-            // Ensure the form shows the correct state on page load
-            document.addEventListener('DOMContentLoaded', function() {
-                // Get query params from the URL
-                function getQueryParam(param) {
-                    let urlParams = new URLSearchParams(window.location.search);
-                    return urlParams.get(param);
-                }
-        
-                // Set form action based on query parameter
-                let actionParam = getQueryParam('action');
-                actionField.value = actionParam === 'signup' ? 'signup' : 'login';
-                
-                // Toggle between signup/login form views
-                toggleForm();
-            });
-        
-            // Function to toggle between Signup and Login forms
-            function toggleForm() {
-                let action = actionField.value;
-                if (action === 'signup') {
-                    nameField.style.maxHeight = "60px";  // Show the name field for signup
-                    title.innerHTML = "Sign Up";
-                    signupBtn.classList.remove("disable");
-                    signinBtn.classList.add("disable");
-                } else if (action === 'login') {
-                    nameField.style.maxHeight = "0";  // Hide the name field for login
-                    title.innerHTML = "Sign In";
-                    signupBtn.classList.add("disable");
-                    signinBtn.classList.remove("disable");
-                }
-            }
-        
-            // Function to validate the form fields
-            function validateFields() {
-                let action = actionField.value;
-                if (action === 'signup') {
-                    return usernameField.value.trim() !== '' &&
-                           emailField.value.trim() !== '' &&
-                           passwordField.value.trim() !== '';
-                } else if (action === 'login') {
-                    return emailField.value.trim() !== '' &&
-                           passwordField.value.trim() !== '';
-                }
-                return false;
-            }
-        
-            // Event handler for Signin button
-            signinBtn.onclick = function() {
-                actionField.value = "login";  // Set action to login
-                if (validateFields()) {
-                    authForm.submit();  // Submit the form if fields are filled
-                } else {
-                    toggleForm();  // Toggle if fields are not filled
-                }
-            }
-        
-            // Event handler for Signup button
-            signupBtn.onclick = function() {
-                actionField.value = "signup";  // Set action to signup
-                if (validateFields()) {
-                    authForm.submit();  // Submit the form if fields are filled
-                } else {
-                    toggleForm();  // Toggle if fields are not filled
-                }
-            }
-        </script>
-        
-        
-        
-    </body>
-</html>
+                <div class="input-group">
+                    <div class="input-field" id="nameField">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" placeholder="Username" name="username" id="usernameField" required>
+                    </div>
+            
+                    <div class="input-field">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" placeholder="Email" name="email" id="emailField" required>
+                    </div>
+            
+                    <div class="input-field">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <input type="text" placeholder="Address" name="address" id="addressField">
+                    </div>
+            
+                    <div class="input-field">
+                        <i class="fa-solid fa-user"></i>
+                        <select name="account_type" id="accountType" required>
+                            <option value="">Select Account Type</option>
+                            <option value="Volunteer">Volunteer</option>
+                            <option value="Donor">Donor</option>
+                        </select>
+                    </div>
+            
+                    <div class="input-field" id="departmentField" style="display:none;">
+                        <i class="fa-solid fa-building"></i>
+                        <select name="department" id="department">
+                            <option value="">Select Department</option>
+                            <option value="HR">HR</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Finance">Finance</option>
+                            <option value="IT">IT</option>
+                        </select>
+                    </div>
+            
+            
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="Password" name="password" id="passwordField" required>
+                    </div>
+            
+                    <div class="input-field">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" placeholder="Confirm Password" name="password2" id="passwordConfirmField" required>
+                    </div>
+            
+                    <div class="btn-field">
+                        <button type="submit" id="signupBtn">Sign Up</button>
+                    </div>
+                </div>
+            </form>
+            
+            <script>
+              document.getElementById("accountType").addEventListener("change", function() {
+    let accountType = this.value;
+    let departmentField = document.getElementById("departmentField");
+    let addressField = document.getElementById("addressField");
+
+    if (accountType === "Volunteer") {
+        departmentField.style.display = "flex";
+        addressField.style.display = "flex";
+        addressField.querySelector("input").required = true;
+        departmentField.querySelector("select").required = true;
+    } else {
+        departmentField.style.display = "none";
+        addressField.style.display = "none"; // Hide the address field
+        addressField.querySelector("input").required = false;
+        departmentField.querySelector("select").required = false;
+    }
+});
+
+// Ensure fields are initialized correctly on page load
+window.addEventListener("load", function() {
+    let accountType = document.getElementById("accountType").value;
+    let departmentField = document.getElementById("departmentField");
+    let addressField = document.getElementById("addressField");
+
+    if (accountType !== "Volunteer") {
+        departmentField.style.display = "none"; // Hide department if not volunteer
+        addressField.style.display = "none";    // Hide address if not volunteer
+        addressField.querySelector("input").required = false;
+        departmentField.querySelector("select").required = false;
+    }
+});
+
+            </script>
+            
+            
